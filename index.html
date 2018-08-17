@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Mocha Spec Runner</title>
+  <link rel="stylesheet" href="bower_components/mocha/mocha.css">
+</head>
+<body>
+  <div id="mocha"></div>
+  <script src="bower_components/mocha/mocha.js"></script>
+  <script>mocha.setup('')</script>
+  <script src="bower_components/chai/chai.js"></script>
+  <script>
+    var assert = chai.assert;
+    var expect = chai.expect;
+    var should = chai.should();
+  </script>
+
+  <!-- include source files here... -->
+  <script src="problems/toyproblems.js"></script>
+  <script src="problems/rockpaperscissor.js"></script>
+  <script src="problems/largestproductofthree.js"></script>
+  <script src="problems/deepEquals.js"></script>
+  <script src="problems/binarysearch.js"></script>
+  <script src="problems/powerset.js"></script>
+  <script src="problems/BFSelect.js"></script>
+  <script src="problems/composePipe.js"></script>
+  <script src="problems/hashTable.js"></script>
+  <script src="problems/range.js"></script>
+  <!-- include spec files here... -->
+  <script src="spec/toyproblems.js"></script>
+  <script src="spec/rockpaperscissor.js"></script>
+  <script src='spec/largestproductofthreespec.js'></script>
+  <script src='spec/deepEquals.js'></script>
+  <script src="spec/binarysearchspec.js"></script>
+  <script src="spec/powersetspec.js"></script>
+  <script src="spec/BFSelectSpec.js"></script>
+  <script src="spec/composePipeSpec.js"></script>
+  <script src="spec/hashTableSpec.js"></script>
+  <script src="spec/rangeSpec.js"></script>
+  <script>mocha.run()</script>
+</body>
+</html>
