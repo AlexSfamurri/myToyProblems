@@ -26,9 +26,9 @@ var Queue = function() {
 Tree.prototype.BFSelect = function(filter) {
   // return an array of values for which the function filter(value, depth) returns true
   const queue = new Queue();
-  
   const node = this;
   const result = [];
+  const depth = [].push(node.value);
   queue.enqueue(node);
 
   let queueSize = 1;
@@ -37,14 +37,23 @@ Tree.prototype.BFSelect = function(filter) {
     queueSize--;
     if(filter(popNode.value)){
       result.push(popNode.value);
+      return popNode.value;
     }
-
+    
+    const tempDepth = [];
     for (let i = 0; i < popNode.children.length; i++){
       queue.enqueue(popNode.children[i]);
       queueSize++;
+      tempDepth.push(popNode.children[i].value);
     }
-    
+    depth.push(tempDepth);
+    for(let i = 0; i < depth.length; i++){
+      if(filter(undefined, depth[i])){
+        return depth[i];
+      }
+    }
   }
+  
   
   return result;
 };
