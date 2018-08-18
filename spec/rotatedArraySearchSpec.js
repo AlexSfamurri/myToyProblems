@@ -17,6 +17,32 @@ describe('rotatedArraySearch()', function () {
   });
 
   it('should return the index of that item quickly', function(){
+    const range = function(start, end, step) {
+      let change = start;
+      const result = [];
+      if(step > 0){
+        while(change <= end){
+          result.push(change);
+          change += step;
+        }
+      }
+      if(step < 0){
+        while(change >= end) {
+          result.push(change);
+          change += step;
+        }
+      }
+      return result;
+    }
+
+    const rotate = (array, offset) => {
+       while(offset > 0){
+         let shifted = array.shift();
+         array.push(shifted);
+         offset--;
+       }
+       return array;
+    };
     var start = 0, end = 1000000, step = 1, offset = 247858, value = 349744;
     var alot = range(start, end, step);
     var real = value - offset; // This logic is not applicable to all cases, just a subset.
@@ -24,8 +50,8 @@ describe('rotatedArraySearch()', function () {
   });
 
   it('should return -1 if value is not in array', function() {
-    Array.prototype.indexOf = indexOf;
-    Array.prototype.includes = includes;
+    // Array.prototype.indexOf = indexOf;
+    // Array.prototype.includes = includes;
     assert.equal(rotatedArraySearch([1, 2, 3], 5), -1);
   })
 
