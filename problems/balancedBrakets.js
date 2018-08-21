@@ -19,13 +19,16 @@ const balancedParens = function(input){
   let balanceParenScale = 0;
   let balanceCurlyScale = 0;
   let balanceBracketScale = 0;
-
+  let lastChar = '';
   while(next() !== undefined){
     if(charAt === openParen){
       balanceParenScale++;
     }
     if(charAt === closeParen){
       balanceParenScale--;
+      if(lastChar === openCurly || lastChar === openBracket){
+        return false;
+      }
     }
 
     if(charAt === openCurly){
@@ -33,6 +36,9 @@ const balancedParens = function(input){
     }
     if(charAt === closeCurly){
       balanceCurlyScale--;
+      if(lastChar === openBracket || lastChar === openParen){
+        return false;
+      }
     }
     
     if(charAt === openBracket){
@@ -40,12 +46,16 @@ const balancedParens = function(input){
     }
     if(charAt === closeBracket){
       balanceBracketScale--;
+      if(lastChar === openCurly || lastChar === openParen){
+        return false;
+      }
     }
     
-
+    
     if(balanceParenScale < 0 || balanceCurlyScale < 0 || balanceBracketScale < 0){
       return false;
     }
+    lastChar = charAt;
   }
   if(balanceParenScale === 0 && balanceBracketScale === 0 && balanceCurlyScale === 0){
     return true;
