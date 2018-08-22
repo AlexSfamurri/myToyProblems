@@ -31,22 +31,24 @@ Tree.prototype.BFSelect = function(filter) {
   queue.enqueue(node);
   let depth = 0;
   let queueSize = 1;
+  // debugger;
   while(queueSize > 0){
     var popNode = queue.dequeue();
-    debugger;
+    // debugger;
     if(popNode === null){
       depth++;
       popNode = queue.dequeue();
     }
     queueSize--;
-    if(filter(popNode.value)){
+    if(filter(popNode.value, depth)){
       result.push(popNode.value);
     }
+    queue.enqueue(null);
     for (let i = 0; i < popNode.children.length; i++){
       queue.enqueue(popNode.children[i]);
       queueSize++;
     }
-    queue.enqueue(null);
+    
   }
   return result;
 };

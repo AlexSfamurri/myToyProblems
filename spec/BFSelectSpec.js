@@ -9,7 +9,6 @@ describe('Tree()', function () {
   var leaf5 = branch2.addChild(5);
   var leaf6 = branch3.addChild(6);
   var leaf7 = branch3.addChild(7);
-  // console.log(root1);
   it('exists', function () {
     expect(Tree).to.be.a('function');
     expect(Queue).to.be.a('function');
@@ -78,6 +77,7 @@ describe('Tree()', function () {
     expected.push(8); root.children[0].children[0].addChild(8);
     expected.push(9); root.children[1].children[1].addChild(9);
     // we should expect back all the nodes we added
+    debugger;
     var result = root.BFSelect(all);
     result.should.have.length(expected.length);
     // make sure the result array contains all the expected values
