@@ -5,13 +5,16 @@ const asyncMap = function(tasks, callback){
   // Your code here
   const results = [];
 
-  tasks.map(task => {
+  tasks.map((task, index) => {
+    
     task((num)=>{
-      results.push(num);
-    });
-  });
 
-  setTimeout(()=>{
-    callback(results);
-  }, 300);
+      results[index] = num;
+      
+    });
+    setTimeout(()=>{
+      
+      callback(results);
+    }, 1000)
+  });
 };
