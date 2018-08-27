@@ -4,17 +4,17 @@
 const asyncMap = function(tasks, callback){
   // Your code here
   const results = [];
-
+  let leftToRun = tasks.length;
   tasks.map((task, index) => {
     
     task((num)=>{
 
       results[index] = num;
-      
+      leftToRun--;
+      if(leftToRun === 0){
+        callback(results);
+      };
+
     });
-    setTimeout(()=>{
-      
-      callback(results);
-    }, 1000)
   });
 };
