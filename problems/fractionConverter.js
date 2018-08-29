@@ -25,16 +25,6 @@ const toFraction = function(number) {
     denominator /= divsor;
   }
   
-  // while(numerator % 2 === 0 && denominator % 2 === 0) {
-  //   numerator /= 2;
-  //   denominator /= 2;
-  // }
-
-  // while(numerator % 3 === 0 && denominator % 3 === 0) {
-  //   numerator /= 3;
-  //   denominator /= 3;
-  // }
-
   result = numerator.toString() + '/' + denominator.toString(); 
   return result;
 };
