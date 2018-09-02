@@ -60,6 +60,28 @@ describe('rotateMatrix()', function () {
       [3,1],
       [4,2]
     ]);
+  });
+
+  it('should rotate a 3x3 matrix counter-clockwise', function(){
+    // Verify the size of a matrix
+    var shouldBeMbyN = function (matrix, m, n) {
+      matrix.should.have.length(m);
+      for (var i = 0; i < n; i++) {
+        matrix[i].should.have.length(n);
+      }
+    };
+    var input = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9]
+    ];
+    var result = rotateMatrix(input, -1);
+    shouldBeMbyN(result, 3, 3);
+    result.should.be.eql([
+      [3, 6, 9],
+      [2, 5, 8],
+      [1, 4, 7]
+    ]);
   })
   // Add more assertions here
 });

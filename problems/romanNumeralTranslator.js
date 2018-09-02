@@ -1,6 +1,6 @@
  /*! toyproblems v0.0.0 - MIT license */
 'use strict';
-'use strict';
+
 
 var DIGIT_VALUES = {
   I: 1,
