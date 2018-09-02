@@ -23,32 +23,26 @@ var Queue = function() {
   };
 };
 
-Tree.prototype.BFSelect = function(filter) {
+Tree.prototype.BFSelect = function (filter) {
   // return an array of values for which the function filter(value, depth) returns true
   const queue = new Queue();
   const node = this;
+  node.depth = 0;
   const result = [];
   queue.enqueue(node);
-  let depth = 0;
+
   let queueSize = 1;
-  // debugger;
-  while(queueSize > 0){
+  while (queueSize > 0) {
     var popNode = queue.dequeue();
-    // debugger;
-    if(popNode === null){
-      depth++;
-      popNode = queue.dequeue();
-    }
     queueSize--;
-    if(filter(popNode.value, depth)){
+    if (filter(popNode.value, null) || filter(null, popNode.depth)) {
       result.push(popNode.value);
     }
-    queue.enqueue(null);
-    for (let i = 0; i < popNode.children.length; i++){
+    for (let i = 0; i < popNode.children.length; i++) {
+      popNode.children[i].depth = popNode.depth + 1;
       queue.enqueue(popNode.children[i]);
       queueSize++;
     }
-    
   }
   return result;
 };
