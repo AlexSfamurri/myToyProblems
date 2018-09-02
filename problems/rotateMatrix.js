@@ -6,14 +6,19 @@ const rotateMatrix = function(matrix, direction ) {
   if(matrix.length < 2) {
     return matrix;
   }
+  if(direction === -1){
+    let result = matrix[0].map((col, index) => {
+      return matrix.map((row) => {
+        return row[index];
+      });
+    });
+    return result.reverse();
+  }
   let result = matrix.reverse()[0].map((col, index) =>{
     return matrix.map((row) => {      
         return row[index];
       });
     });
-  if(direction === -1){
-    result = result.reverse();
-  }
   
   return result;
 };
