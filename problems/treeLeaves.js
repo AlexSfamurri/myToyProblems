@@ -25,8 +25,6 @@ Tree.prototype.countLeaves = function () {
       count++;
     }
   }
-  
-  
   return count;
 
 };
