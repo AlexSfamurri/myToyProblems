@@ -43,14 +43,7 @@ var numbersToPlace = {
   1000000000000000000: 'quintillion',
 };
 
-let at = 0;
-let place;
-const next =(reversedNumbers) => {
-  let charAt = reversedNumbers.charAt(at);
-  at++;
-  place += place ? 1 : 0;
-  return charAt;
-}
+
 
 Number.prototype.toEnglish = function () {
   // Your code here
@@ -60,4 +53,51 @@ Number.prototype.toEnglish = function () {
   if(numbersToPlace[this] !== undefined){
     return 'one ' + numbersToPlace[this];
   }
+  const numArray = this.toString().split('').reverse();
+  let word = '';
+  let temp = [];
+  let isTeen = false;
+  numArray.forEach((num, place)=>{
+    if((place + 1) % 4 === 0 || (place + 1) % 3 === 0){
+      let placeWord = '1';
+      for(let i = 0; i < place; i++){
+        placeWord += '0';
+      }
+      if (num === '0' && (place + 1) % 3 === 0 && numArray[place + 1]) {
+        return;
+      }
+      if(num !== '0' && num){
+        temp.push(numbersToWords[num] + ' ' + numbersToPlace[placeWord] + ' ');
+      } else {
+        temp.push(numbersToPlace[placeWord] + ' ')
+      }
+      return;
+    }
+    if((place + 1) % 2 === 0){
+      if(num === '0'){
+        return;
+      }
+      if (num > '1') {
+        temp.push(numbersToWords[num + '0'] + '-');
+        isTeen = false;
+      } else {
+        isTeen = true;
+      }
+      return;
+    }
+    if (isTeen) {
+      temp.push(numbersToWords['1' + num] + ' ');
+      isTeen = false;
+      return;
+    }
+    if(num === '0'){
+      return;
+    }
+    temp.push(numbersToWords[num] + ' ');
+  });
+  const result = temp.reverse().join('').split('');
+  if (result[result.length - 1] === ' ' || result[result.length - 1] === '-'){
+    result.pop();
+  }
+  return result.join('');
 };

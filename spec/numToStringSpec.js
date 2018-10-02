@@ -61,5 +61,15 @@ describe('Number.toEnglish()', function () {
     (922).toEnglish().should.equal('nine hundred twenty-two');
   });
 
+  it('should write thousands', function() {
+    (1000).toEnglish().should.equal('one thousand');
+    (50000).toEnglish().should.equal('fifty thousand');
+    (700000).toEnglish().should.equal('seven hundred thousand');
+    (5625).toEnglish().should.equal('five thousand six hundred twenty-five');
+    (17490).toEnglish().should.equal('seventeen thousand four hundred ninety');
+    (355003).toEnglish().should.equal('three hundred fifty-five thousand three');
+    (845913).toEnglish().should.equal('eight hundred forty-five thousand nine hundred thirteen');
+  });
+
   // Add more assertions here
 });
