@@ -46,58 +46,79 @@ var numbersToPlace = {
 
 
 Number.prototype.toEnglish = function () {
-  // Your code here
-  if(numbersToWords[this] !== undefined){
-    return numbersToWords[this];
+  let numStr = this.toString();
+  let number = [];
+  let section = '';
+  let place = '1';
+  let counter = 0;
+  let result = '';
+  let notAllZeros = false;
+
+  if (numStr === '0') {
+    return 'zero';
   }
-  if(numbersToPlace[this] !== undefined){
-    return 'one ' + numbersToPlace[this];
+
+  if (numStr.length > 3) {
+    for (let i = numStr.length - 3; i > -3; i -= 3) {
+      let start = Math.max(0, i);
+      number.unshift(numStr.slice(start, i + 3));
+    }
+  } else {
+    number.push(numStr);
   }
-  const numArray = this.toString().split('').reverse();
-  let word = '';
-  let temp = [];
-  let isTeen = false;
-  numArray.forEach((num, place)=>{
-    if((place + 1) % 4 === 0 || (place + 1) % 3 === 0){
-      let placeWord = '1';
-      for(let i = 0; i < place; i++){
-        placeWord += '0';
-      }
-      if (num === '0' && (place + 1) % 3 === 0 && numArray[place + 1]) {
-        return;
-      }
-      if(num !== '0' && num){
-        temp.push(numbersToWords[num] + ' ' + numbersToPlace[placeWord] + ' ');
+  counter = number.length - 1;
+  for (let j = 0; j < number.length; j++) {
+    let piece = number[j];
+    let length = piece.length - 2;
+    for (let k = 0; k < piece.length; k++) {
+      if (length === 1) {
+        if (piece[k] === '0') {
+          length--;
+          continue;
+        }
+        section += numbersToWords[piece[k]] + ' ' +
+          numbersToPlace['100'] + ' ';
+        notAllZeros = true;
+      } else if (length === 0) {
+        if (piece[k] === '1') {
+          section += numbersToWords[piece[k] + piece[k + 1]] + ' ';
+          notAllZeros = true;
+          k++;
+          continue;
+        } else if (piece[k] === '0') {
+          length--;
+          continue;
+        } else if (piece[k + 1] === '0') {
+          section += numbersToWords[piece[k] + '0'] + ' ';
+          notAllZeros = true;
+          continue;
+        } else {
+          section += numbersToWords[piece[k] + '0'] + '-';
+          notAllZeros = true;
+        }
       } else {
-        temp.push(numbersToPlace[placeWord] + ' ')
+        if (piece[k] === '0') {
+          continue;
+        }
+        section += numbersToWords[piece[k]] + ' ';
+        notAllZeros = true;
       }
-      return;
+      length--;
     }
-    if((place + 1) % 2 === 0){
-      if(num === '0'){
-        return;
+    result += section;
+    section = '';
+    if (notAllZeros) {
+      if (counter > 0) {
+        for (let l = 0; l < counter; l++) {
+          place += '000';
+        }
+        result += numbersToPlace[place] + ' ';
       }
-      if (num > '1') {
-        temp.push(numbersToWords[num + '0'] + '-');
-        isTeen = false;
-      } else {
-        isTeen = true;
-      }
-      return;
     }
-    if (isTeen) {
-      temp.push(numbersToWords['1' + num] + ' ');
-      isTeen = false;
-      return;
-    }
-    if(num === '0'){
-      return;
-    }
-    temp.push(numbersToWords[num] + ' ');
-  });
-  const result = temp.reverse().join('').split('');
-  if (result[result.length - 1] === ' ' || result[result.length - 1] === '-'){
-    result.pop();
+    notAllZeros = false;
+    counter--;
+    place = '1';
   }
-  return result.join('');
+
+  return result.slice(0, -1);
 };
