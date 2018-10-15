@@ -18,35 +18,43 @@ Tree.prototype.removeChild = function(node){
   this.children.splice(index, 1);
 };
 
-Tree.prototype.getClosestCommonAncestor = function(relative1, relative2) {
+Tree.prototype.getClosestCommonAncestor = function (node1, node2) {
   // TODO: implement me!
-  const relative1Path = this.getAncestorPath(relative1);
-  const relative2Path = this.getAncestorPath(relative2);
-  console.log(relative1Path, " relative1");
-  console.log(relative2Path, " relative2");
-  if (relative1Path === null || relative2Path === null) { return null; ev}
-  if (relative1Path.length === 1 && relative2Path.length === 1){
-    return relative1;
+  let result;
+  if (node1 === node2) {
+    return node1;
   }
 
-  if(relative1Path.length === relative2Path.length){
-    return relative1Path[relative1Path.length - 1];
+  let path1 = this.getAncestorPath(node1);
+  let path2 = this.getAncestorPath(node2);
+  if (path1 === null || path2 === null) { return null; }
+
+  const minLength = Math.min(path1.length, path2.length);
+
+  for (var i = 0; i < minLength; i++) {
+    if (path1[i] !== path2[i]) {
+      return path1[i - 1];
+    }
   }
-  
-  
+  return path1[i];
 
 };
 
-
-Tree.prototype.getAncestorPath = function(node, result = []) {
+Tree.prototype.getAncestorPath = function (node) {
   // TODO: implement me!
-  result.push(this);
-  if(this.children.includes(node) && this.children.length){
-    result.push(node);
-  } else {
-    this.children.forEach(child => {
-      child.getAncestorPath(node, result);
-    });
+  function recurse(parent, target, path) {
+    if (parent === target) { return path; }
+    if (!parent.children) { return null; }
+
+    const childResults = parent.children.map(child => recurse(child, target, path.concat(child)));
+
+    const results = childResults.filter(result => result);
+    if (results.length) {
+      return results[0];
+    }
+    return null;
   }
-  return result.includes(node) ? result : null;
+
+  return recurse(this, node, [this]);
+
 };
