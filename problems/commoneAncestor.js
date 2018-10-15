@@ -24,6 +24,7 @@ Tree.prototype.getClosestCommonAncestor = function(relative1, relative2) {
   const relative2Path = this.getAncestorPath(relative2);
   console.log(relative1Path, " relative1");
   console.log(relative2Path, " relative2");
+  if (relative1Path === null || relative2Path === null) { return null; ev}
   if (relative1Path.length === 1 && relative2Path.length === 1){
     return relative1;
   }

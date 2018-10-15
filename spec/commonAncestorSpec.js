@@ -93,7 +93,16 @@ describe('Tree()', function () {
     commonAncestor.should.equal(trunk);
   });
 
-  it('should return lowest common ancestors', function(){
+  it('should return null for children that are not ancestors', function(){
+    var trunk = new Tree();
+    var leaf1 = new Tree();
+    var leaf2 = new Tree();
+    trunk.addChild(leaf1);
+    var commonAncestor = trunk.getClosestCommonAncestor(leaf1, leaf2);
+    should.not.exist(commonAncestor);
+  });
+
+  it('should return lowest common ancestors', function() {
     var root = new Tree();
     var left = new Tree();
     root.addChild(left);
@@ -103,8 +112,6 @@ describe('Tree()', function () {
     right1.addChild(right2);
     var right3 = new Tree();
     right1.addChild(right3);
-    // console.log(root);
-    
     var closestAncestor = root.getClosestCommonAncestor(right2, right3);
     should.exist(closestAncestor);
     closestAncestor.should.be.equal(right1);
@@ -116,6 +123,50 @@ describe('Tree()', function () {
     var closestAncestor = root.getClosestCommonAncestor(left, right4);
     should.exist(closestAncestor);
     closestAncestor.should.be.equal(root);
-  });
+  })
+
+  it('large trees', function() {
+    var child, tmp, left, right, expectedAncestor, commonAncestor;
+    // just a complicated tree to test against.
+    var root = new Tree();
+    for (var i = 0; i < 4; i++) {
+      child = new Tree();
+      for (var j = 0; j < 3; j++) {
+        child.addChild(new Tree());
+      }
+      root.addChild(child);
+    }
+    child = root;
+    for (var i = 0; i < 10; i++) {
+      tmp = new Tree();
+      child.addChild(tmp);
+      child = tmp;
+    }
+    expectedAncestor = child;
+    left = new Tree();
+    child.addChild(left);
+    for (var i = 0; i < 10; i++) {
+      tmp = new Tree();
+      left.addChild(tmp);
+      left = tmp;
+    }
+    right = new Tree();
+    child.addChild(right);
+    for (var i = 0; i < 10; i++) {
+      tmp = new Tree();
+      right.addChild(tmp);
+      right = tmp;
+    }
+    for (var i = 0; i < 4; i++) {
+      child = new Tree();
+      for (var j = 0; j < 3; j++) {
+        child.addChild(new Tree());
+      }
+      root.addChild(child);
+    }
+    commonAncestor = root.getClosestCommonAncestor(left, right);
+    should.exist(commonAncestor);
+    commonAncestor.should.equal(expectedAncestor);
+  })
   // Add more assertions here
 });
