@@ -1,10 +1,10 @@
-/* global toyproblems, describe, it, expect, should */
+/* global insertionSort, describe, it, expect, should */
 
-describe('toyproblems()', function () {
+describe('insertionSort()', function () {
   'use strict';
 
   it('exists', function () {
-    expect(toyproblems).to.be.a('function');
+    expect(insertionSort).to.be.a('function');
 
   });
 
