@@ -8,9 +8,26 @@ describe('insertionSort()', function () {
 
   });
 
-  it('Should not use native sort', function () {
-    insertionSort(testingTransform([1, 2, 3]));
-    Array.prototype.sort.called.should.be.false;
+  it('should sort according to the passed comparator', function () {
+    var array = testingTransform([1, 2, 3, 4, 5]);
+    insertionSort(array, function (a, b) {
+      return b.order - a.order;
+    });
+    array.should.eql([
+      { value: 5, order: 4 },
+      { value: 4, order: 3 },
+      { value: 3, order: 2 },
+      { value: 2, order: 1 },
+      { value: 1, order: 0 },
+    ]);
+    var array = [0, 1, 2, 3, 4, 5];
+    insertionSort(array, function (a, b) {
+      var aIsOdd = a & 1;
+      var bIsOdd = b & 1;
+      
+      return aIsOdd - bIsOdd;
+    });
+    array.should.eql([0, 2, 4, 1, 3, 5]);
   });
 
   it('Should return the original array', function () {
