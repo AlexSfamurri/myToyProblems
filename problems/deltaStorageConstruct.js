@@ -8,43 +8,27 @@ function reconstruct(changes){
   
   const lines = changes.reduce((finishedString, entryArr) =>{
     // console.log(entryObj);
-    if(entryArr.length > 1){
-      const entryObj = [entryArr];
-      if(finishedString === '') {
-        return entryObj.text;
+    // debugger;x
+    
+    return entryArr.reduce((internalAdjusts, innerObj) => {
+      internalAdjusts = internalAdjusts.split('\n').filter(isBlank => isBlank !== '');
+      if(innerObj.type === 'add') {
+        internalAdjusts.splice(innerObj.line, 0, innerObj.text);
       }
-      finishedString = finishedString.split('\n');
-      if (entryObj.type === 'add') {      
-        finishedString.splice(entryObj.line, 0, entryObj.text);
-        
-        
+      if(innerObj.type === 'rem') {
+        internalAdjusts.splice(innerObj.line, innerObj.count);
       }
-      
-      if (entryObj.type === 'rem') {
-        finishedString.splice(entryObj.line, entryObj.count);
-      }
-      // console.log(finishedString);
-      
-      return finishedString.join('') + '\n';
-    } else {
-      return entryArr.reduce((internalAdjusts, innerObj) => {
-        console.log(internalAdjusts);
-        
-        internalAdjusts = internalAdjusts.split('\n');
-        if(innerObj.type === 'add') {
-          internalAdjusts.splice(innerObj.line, 0, innerObj.text);
+      internalAdjusts = internalAdjusts.map(valueThatNeedsNewline => {
+        if(!valueThatNeedsNewline.includes('\n')){
+          return valueThatNeedsNewline + '\n';
         }
-
-        if(innerObj.type === 'rem') {
-          internalAdjusts.splice(innerObj.line, innerObj.count);
-        }
-
-        return internalAdjusts.join('') + '\n';
-      }, finishedString);
-    }
-
-
+        return valueThatNeedsNewline;
+      })
+      console.log(internalAdjusts);
+      return internalAdjusts.filter(isBlankSpace => isBlankSpace !== '').join(' ');
+    }, finishedString);
   }, '');
+  console.log(lines);
   
-  return lines;
+  return lines.split(' ').filter(isBlank => isBlank !== '').join('\n').split('\n').filter(isBlank => isBlank !== '').join('\n') + '\n';
 }
